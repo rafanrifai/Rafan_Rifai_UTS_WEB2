@@ -78,7 +78,7 @@ ShopKu adalah aplikasi e-commerce sederhana yang memungkinkan pengguna untuk:
 
 ## Link Demo
 
-> Deploy ke GitHub Pages setelah upload ke repository
+https://rafanrifai.github.io/Rafan_Rifai_UTS_WEB2/
 
 ## Kategori Produk
 
