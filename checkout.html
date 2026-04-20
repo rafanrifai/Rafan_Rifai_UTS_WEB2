@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopKu – Checkout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+
+  <div id="toast-container"
+    class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 items-end pointer-events-none"></div>
+
+  <!-- Success Modal -->
+  <div id="success-modal"
+    class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+      <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center
+                  justify-center mx-auto mb-5">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none"
+          viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Order Placed! 🎉</h2>
+      <p class="text-gray-500 dark:text-gray-400 mb-5">
+        Your order has been successfully placed. We'll process it right away!
+      </p>
+      <div class="bg-indigo-50 dark:bg-indigo-900/30 rounded-xl p-4 mb-6">
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Transaction ID</p>
+        <p id="modal-trx-id" class="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-sm break-all"></p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Total Paid</p>
+        <p id="modal-total" class="font-bold text-gray-800 dark:text-white text-lg"></p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-3">
+        <button id="modal-view-orders"
+          class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4
+                 rounded-xl transition-colors">View Orders</button>
+        <button id="modal-continue"
+          class="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600
+                 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-xl transition-colors">
+          Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-40 bg-white dark:bg-gray-800 shadow-sm border-b
+              border-gray-200 dark:border-gray-700 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="shop.html" class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">ShopKu</span>
+        </a>
+
+        <!-- Checkout Steps -->
+        <div class="hidden sm:flex items-center gap-2 text-sm">
+          <span class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+            <span class="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-xs font-bold">✓</span>
+            Cart
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          <span class="flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 font-semibold">
+            <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">2</span>
+            Checkout
+          </span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          <span class="flex items-center gap-1.5 text-gray-400 dark:text-gray-500">
+            <span class="w-6 h-6 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-500 flex items-center justify-center text-xs font-bold">3</span>
+            Done
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="dark-mode-btn p-2 rounded-lg text-gray-500 dark:text-gray-400
+                         hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"></button>
+          <div id="nav-user" class="flex items-center gap-2"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+
+      <!-- CHECKOUT FORM -->
+      <div class="flex-1">
+        <form id="checkout-form" class="space-y-6">
+
+          <!-- Shipping Info -->
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100
+                      dark:border-gray-700 p-6">
+            <h2 class="text-lg font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+              <span class="w-7 h-7 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400
+                           rounded-lg flex items-center justify-center text-sm font-bold">1</span>
+              Shipping Information
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Full Name <span class="text-red-500">*</span>
+                </label>
+                <input id="full-name" type="text" placeholder="Enter your full name"
+                  class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         placeholder-gray-400 dark:placeholder-gray-500
+                         focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Full Address <span class="text-red-500">*</span>
+                </label>
+                <textarea id="address" rows="3" placeholder="Street, City, Province, Postal Code"
+                  class="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600
+                         bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                         placeholder-gray-400 dark:placeholder-gray-500
+                         focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors resize-none"></textarea>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
+                  Phone Number <span class="text-red-500">*</span>
+                </label>
+                <div class="flex gap-2">
+                  <span class="flex items-center px-3 py-3 bg-gray-100 dark:bg-gray-700 border
+                               border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-600
+                               dark:text-gray-400 font-medium">🇮🇩 +62</span>
+                  <input id="phone" type="tel" placeholder="812-3456-7890"
+                    class="flex-1 px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600
+                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                           placeholder-gray-400 dark:placeholder-gray-500
+                           focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" />
+                </div>
+                <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Format: 08xx-xxxx-xxxx or +62xxx</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100
+                      dark:border-gray-700 p-6">
+            <h2 class="text-lg font-bold text-gray-800 dark:text-white mb-5 flex items-center gap-2">
+              <span class="w-7 h-7 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400
+                           rounded-lg flex items-center justify-center text-sm font-bold">2</span>
+              Payment Method
+            </h2>
+            <div class="space-y-3">
+              <label class="flex items-center gap-4 p-4 rounded-xl border-2 border-gray-200
+                            dark:border-gray-700 cursor-pointer hover:border-indigo-400
+                            dark:hover:border-indigo-500 transition-colors">
+                <input type="radio" name="payment" value="bank_transfer"
+                  class="w-4 h-4 text-indigo-600 focus:ring-indigo-500" />
+                <div class="flex items-center gap-3 flex-1">
+                  <span class="text-2xl">🏦</span>
+                  <div>
+                    <p class="font-semibold text-gray-800 dark:text-white text-sm">Transfer Bank</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">BCA, Mandiri, BNI, BRI</p>
+                  </div>
+                </div>
+              </label>
+              <label class="flex items-center gap-4 p-4 rounded-xl border-2 border-gray-200
+                            dark:border-gray-700 cursor-pointer hover:border-indigo-400
+                            dark:hover:border-indigo-500 transition-colors">
+                <input type="radio" name="payment" value="cod"
+                  class="w-4 h-4 text-indigo-600 focus:ring-indigo-500" />
+                <div class="flex items-center gap-3 flex-1">
+                  <span class="text-2xl">💵</span>
+                  <div>
+                    <p class="font-semibold text-gray-800 dark:text-white text-sm">Cash on Delivery</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">Pay when your order arrives</p>
+                  </div>
+                </div>
+              </label>
+              <label class="flex items-center gap-4 p-4 rounded-xl border-2 border-gray-200
+                            dark:border-gray-700 cursor-pointer hover:border-indigo-400
+                            dark:hover:border-indigo-500 transition-colors">
+                <input type="radio" name="payment" value="ewallet"
+                  class="w-4 h-4 text-indigo-600 focus:ring-indigo-500" />
+                <div class="flex items-center gap-3 flex-1">
+                  <span class="text-2xl">📱</span>
+                  <div>
+                    <p class="font-semibold text-gray-800 dark:text-white text-sm">E-Wallet</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">GoPay, OVO, Dana, ShopeePay</p>
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit"
+            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 px-6
+                   rounded-xl transition-colors shadow-lg hover:shadow-xl text-lg
+                   flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Place Order
+          </button>
+          <p class="text-center text-xs text-gray-400 dark:text-gray-500">
+            🔒 Your payment information is secure and encrypted
+          </p>
+        </form>
+      </div>
+
+      <!-- ORDER SUMMARY -->
+      <div class="lg:w-80 flex-shrink-0">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100
+                    dark:border-gray-700 p-6 sticky top-24">
+          <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-4">Order Summary</h3>
+          <div id="order-items" class="space-y-1 max-h-64 overflow-y-auto mb-4"></div>
+          <div class="border-t border-gray-200 dark:border-gray-700 pt-4 space-y-2">
+            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+              <span>Subtotal</span>
+              <span id="summary-subtotal" class="font-medium text-gray-800 dark:text-white">Rp 0</span>
+            </div>
+            <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+              <span>Shipping</span>
+              <span id="summary-shipping" class="font-medium text-gray-800 dark:text-white">Rp 15.000</span>
+            </div>
+            <div class="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+              <div class="flex justify-between">
+                <span class="font-bold text-gray-800 dark:text-white">Total</span>
+                <span id="summary-total" class="font-bold text-xl text-indigo-600 dark:text-indigo-400">Rp 0</span>
+              </div>
+            </div>
+          </div>
+          <a href="cart.html"
+            class="mt-4 flex items-center justify-center gap-2 text-sm text-gray-500
+                   dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Cart
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+        © 2024 ShopKu. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

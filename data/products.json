@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "name": "Wireless Bluetooth Headphones",
+    "price": 450000,
+    "image": "https://picsum.photos/seed/prod1/400/300",
+    "description": "Premium wireless headphones with active noise cancellation, 30-hour battery life, and crystal-clear sound quality. Perfect for music lovers and remote workers.",
+    "category": "Electronics",
+    "rating": 4.5,
+    "stock": 15
+  },
+  {
+    "id": 2,
+    "name": "Smartphone Stand & Charger",
+    "price": 185000,
+    "image": "https://picsum.photos/seed/prod2/400/300",
+    "description": "Adjustable aluminum smartphone stand with built-in 15W wireless charging pad. Compatible with all Qi-enabled devices.",
+    "category": "Electronics",
+    "rating": 4.2,
+    "stock": 25
+  },
+  {
+    "id": 3,
+    "name": "Mechanical Gaming Keyboard",
+    "price": 750000,
+    "image": "https://picsum.photos/seed/prod3/400/300",
+    "description": "Full-size mechanical keyboard with RGB backlight, tactile blue switches, and durable aluminum frame. Ideal for gaming and typing enthusiasts.",
+    "category": "Electronics",
+    "rating": 4.7,
+    "stock": 8
+  },
+  {
+    "id": 4,
+    "name": "USB-C Hub 7-in-1",
+    "price": 320000,
+    "image": "https://picsum.photos/seed/prod4/400/300",
+    "description": "Compact 7-in-1 USB-C hub with HDMI 4K, 3x USB 3.0, SD card reader, and 100W PD charging. Essential for laptop users.",
+    "category": "Electronics",
+    "rating": 4.3,
+    "stock": 20
+  },
+  {
+    "id": 5,
+    "name": "Men's Casual Polo Shirt",
+    "price": 175000,
+    "image": "https://picsum.photos/seed/prod5/400/300",
+    "description": "Comfortable 100% cotton polo shirt available in multiple colors. Slim fit design suitable for casual and semi-formal occasions.",
+    "category": "Fashion",
+    "rating": 4.1,
+    "stock": 50
+  },
+  {
+    "id": 6,
+    "name": "Women's Floral Dress",
+    "price": 285000,
+    "image": "https://picsum.photos/seed/prod6/400/300",
+    "description": "Elegant floral print midi dress with adjustable waist tie. Made from breathable chiffon fabric, perfect for summer outings.",
+    "category": "Fashion",
+    "rating": 4.6,
+    "stock": 30
+  },
+  {
+    "id": 7,
+    "name": "Leather Crossbody Bag",
+    "price": 395000,
+    "image": "https://picsum.photos/seed/prod7/400/300",
+    "description": "Genuine leather crossbody bag with multiple compartments and adjustable strap. Stylish and functional for everyday use.",
+    "category": "Fashion",
+    "rating": 4.4,
+    "stock": 18
+  },
+  {
+    "id": 8,
+    "name": "Running Sneakers",
+    "price": 520000,
+    "image": "https://picsum.photos/seed/prod8/400/300",
+    "description": "Lightweight running shoes with responsive foam cushioning and breathable mesh upper. Designed for long-distance comfort.",
+    "category": "Fashion",
+    "rating": 4.8,
+    "stock": 22
+  },
+  {
+    "id": 9,
+    "name": "Organic Green Tea (100g)",
+    "price": 65000,
+    "image": "https://picsum.photos/seed/prod9/400/300",
+    "description": "Premium Japanese matcha green tea, stone-ground from shade-grown leaves. Rich in antioxidants with a smooth, earthy flavor.",
+    "category": "Food",
+    "rating": 4.5,
+    "stock": 100
+  },
+  {
+    "id": 10,
+    "name": "Dark Chocolate Gift Box",
+    "price": 120000,
+    "image": "https://picsum.photos/seed/prod10/400/300",
+    "description": "Assorted premium dark chocolates with 70% cacao content. Includes 12 handcrafted pieces in an elegant gift box.",
+    "category": "Food",
+    "rating": 4.7,
+    "stock": 45
+  },
+  {
+    "id": 11,
+    "name": "Cold Brew Coffee Pack",
+    "price": 95000,
+    "image": "https://picsum.photos/seed/prod11/400/300",
+    "description": "Ready-to-brew cold brew coffee kit with 6 single-serve bags of specialty Arabica beans. Smooth, low-acid taste.",
+    "category": "Food",
+    "rating": 4.3,
+    "stock": 60
+  },
+  {
+    "id": 12,
+    "name": "Mixed Nuts & Dried Fruits",
+    "price": 145000,
+    "image": "https://picsum.photos/seed/prod12/400/300",
+    "description": "Premium blend of almonds, cashews, walnuts, and dried cranberries. No added sugar or preservatives. 500g resealable pack.",
+    "category": "Food",
+    "rating": 4.4,
+    "stock": 75
+  }
+]

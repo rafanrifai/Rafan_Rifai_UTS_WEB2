@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopKu – Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+
+  <div id="toast-container"
+    class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 items-end pointer-events-none"></div>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-40 bg-white dark:bg-gray-800 shadow-sm border-b
+              border-gray-200 dark:border-gray-700 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 gap-4">
+        <a href="shop.html" class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+          </div>
+          <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400">ShopKu</span>
+        </a>
+        <h1 class="text-lg font-bold text-gray-800 dark:text-white">
+          Shopping Cart
+          <span id="item-count" class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-1"></span>
+        </h1>
+        <div class="flex items-center gap-2">
+          <button class="dark-mode-btn p-2 rounded-lg text-gray-500 dark:text-gray-400
+                         hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"></button>
+          <div id="nav-user" class="flex items-center gap-2"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- Empty Cart -->
+    <div id="empty-cart" class="hidden text-center py-24">
+      <div class="text-8xl mb-6">🛒</div>
+      <h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-3">Your cart is empty</h2>
+      <p class="text-gray-500 dark:text-gray-400 mb-8">
+        Looks like you haven't added anything to your cart yet.
+      </p>
+      <a href="shop.html"
+        class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white
+               font-semibold px-8 py-3 rounded-xl transition-colors shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Continue Shopping
+      </a>
+    </div>
+
+    <!-- Cart Content -->
+    <div id="cart-content" class="hidden">
+      <div class="flex flex-col lg:flex-row gap-8">
+
+        <!-- Cart Items -->
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold text-gray-800 dark:text-white">Cart Items</h2>
+            <button id="clear-cart-btn"
+              class="text-sm text-red-500 hover:text-red-700 transition-colors flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+              Clear Cart
+            </button>
+          </div>
+          <div id="cart-items" class="space-y-4"></div>
+          <div class="mt-6">
+            <a href="shop.html"
+              class="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400
+                     hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors font-medium text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Continue Shopping
+            </a>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="lg:w-80 flex-shrink-0">
+          <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100
+                      dark:border-gray-700 p-6 sticky top-24">
+            <h3 class="text-lg font-bold text-gray-800 dark:text-white mb-5">Order Summary</h3>
+            <div class="space-y-3 mb-5">
+              <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                <span>Subtotal</span>
+                <span id="subtotal-price" class="font-medium text-gray-800 dark:text-white">Rp 0</span>
+              </div>
+              <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                <span>Shipping</span>
+                <span id="shipping-price" class="font-medium text-gray-800 dark:text-white">Rp 15.000</span>
+              </div>
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-3">
+                <div class="flex justify-between">
+                  <span class="font-bold text-gray-800 dark:text-white">Total</span>
+                  <span id="cart-total" class="font-bold text-xl text-indigo-600 dark:text-indigo-400">Rp 0</span>
+                </div>
+              </div>
+            </div>
+            <a href="checkout.html"
+              class="block w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold
+                     py-3 px-6 rounded-xl transition-colors text-center shadow-md hover:shadow-lg">
+              Proceed to Checkout →
+            </a>
+            <div class="mt-5 flex items-center justify-center gap-4 text-xs text-gray-400 dark:text-gray-500">
+              <span>🔒 Secure</span>
+              <span>🚚 Fast Delivery</span>
+              <span>↩️ Easy Returns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <p class="text-center text-sm text-gray-500 dark:text-gray-400">
+        © 2024 ShopKu. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>
